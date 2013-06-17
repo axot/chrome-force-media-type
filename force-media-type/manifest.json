@@ -1,23 +1,29 @@
 {
   "name": "Force Media-Type", 
+  "manifest_version": 2,
   "description": "Open links as particular media (MIME) types from the context menu.", 
-  "homepage_url": "https://github.com/atdt/chrome-force-media-type",
-  "version": "1.6.1",
+  "homepage_url": "https://github.com/axot/chrome-force-media-type",
+  "version": "1.6.2",
   "minimum_chrome_version": "18",
-  "id": "6BDDDE18B6A7E78C7E337544B18B230A74EDA094", 
-  "icons": {
-    "128": "icon-128.png", 
-    "16": "icon-16.png", 
-    "19": "icon-19.png", 
-    "48": "icon-48.png"
-  }, 
-  "background_page": "background.html", 
+  //"id": "6BDDDE18B6A7E78C7E337544B18B230A74EDA094", 
   "options_page": "options.html", 
+
   "permissions": [
     "tabs", 
     "contextMenus", 
     "webRequest", 
     "webRequestBlocking", 
     "<all_urls>"
-  ]
+  ],
+
+  "icons": {
+      "128": "icon-128.png", 
+      "16": "icon-16.png", 
+      "19": "icon-19.png", 
+      "48": "icon-48.png"
+  },
+
+  "background": {
+    "scripts": ["media-type.js"]
+  }
 }

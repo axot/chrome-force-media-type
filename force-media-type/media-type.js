@@ -11,7 +11,7 @@
 (function () {
     "use strict";
     var headers_received = chrome.webRequest.onHeadersReceived,
-        media_types = ['text/html', 'text/plain'],
+        media_types = ['text/plain'],
         target_tab = 0,
         target_url = '',
         patch_headers = function (media_type) {
@@ -88,26 +88,25 @@
             types = types.filter(nonempty);
 
             // Create the parent
-            parent_id = chrome.contextMenus.create({
-                title: "Open as media type\u2026",
-                contexts: ['link']
-            });
+//            parent_id = chrome.contextMenus.create({
+//                title: "Open as media type\u2026",
+//                contexts: ['link']
+//            });
 
             // Create children
             types.forEach(function (media_type, index) {
                 // Create at separator before user-set media types
-                if (index === media_types.length) {
-                    chrome.contextMenus.create({
-                        type: 'separator',
-                        contexts: ['link'],
-                        parentId: parent_id
-                    });
-                }
+//                if (index === media_types.length) {
+//                    chrome.contextMenus.create({
+//                        type: 'separator',
+//                        contexts: ['link'],
+//                        parentId: parent_id
+//                    });
+//                }
                 // Create the menu item for this type
                 chrome.contextMenus.create({
-                    title: media_type,
+                    title: 'Open as ' + media_type,
                     contexts: ['link'],
-                    parentId: parent_id,
                     onclick: click_handler(media_type)
                 });
             });

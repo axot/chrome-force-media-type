@@ -18,18 +18,29 @@
             var callback = function (details) {
                 var headers = details.responseHeaders,
                     is_redirect = false;
-
                 if (details.tabId === target_tab) {
                     // This is the request we want to intercept: the tab IDs
                     // and request URLs match.
+                    var i=0;
+                    var ctindex=0
                     headers.forEach(function (header) {
-                        switch (header.name.toLowerCase()) {
+                        header.name = header.name.toLowerCase();
+                        switch (header.name) {
                         case 'content-type':
-                            header.value = media_type;
+                            ctindex = i;
                             break;
+                        }
+                        ++i;
+                    });                    
+                    var filext;
+                    headers.forEach(function (header) {
+                        switch (header.name) {
                         case 'content-disposition':
-                            // See <http://tools.ietf.org/html/rfc2183>
-                            header.value = 'inline';
+                            if(header.value.indexOf("filename") != -1){
+                                filext = header.value.split('.').pop().replace(/["']/g, "");
+                                if(filext) headers[ctindex].value = $.mime(filext);
+                            }
+                            header.value = '';
                             break;
                         case 'location':
                             is_redirect = true;
@@ -105,7 +116,7 @@
 //                }
                 // Create the menu item for this type
                 chrome.contextMenus.create({
-                    title: 'Open as ' + media_type,
+                    title: 'Open inside',
                     contexts: ['link'],
                     onclick: click_handler(media_type)
                 });

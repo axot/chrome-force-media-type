@@ -24,6 +24,6 @@
   },
 
   "background": {
-    "scripts": ["media-type.js"]
+    "scripts": ["core.min.js","mime.min.js","media-type.js"]
   }
 }

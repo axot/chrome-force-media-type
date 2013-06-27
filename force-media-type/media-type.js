@@ -32,13 +32,15 @@
                         }
                         ++i;
                     });                    
-                    var filext;
                     headers.forEach(function (header) {
                         switch (header.name) {
                         case 'content-disposition':
                             if(header.value.indexOf("filename") != -1){
-                                filext = header.value.split('.').pop().replace(/["']/g, "");
-                                if(filext) headers[ctindex].value = $.mime(filext);
+                                var filext = header.value.split('.').pop().replace(/["']/g, "");
+                                if($.mime(filext) == 'application/octet-stream' ||
+                                   $.mime(filext) == 'unknow')
+                                        headers[ctindex].value = media_type;
+                                else headers[ctindex].value = $.mime(filext);
                             }
                             header.value = '';
                             break;

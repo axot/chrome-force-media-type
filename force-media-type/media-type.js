@@ -2,6 +2,7 @@
  * Force Media-Type
  *
  * Copyright 2012, Ori Livneh
+ * Copyright 2013, Zheng SHAO @axot
  * Licensed under the BSD license; see LICENSE for more details.
  */
 
@@ -12,6 +13,7 @@
     "use strict";
     var headers_received = chrome.webRequest.onHeadersReceived,
         media_types = ['text/plain'],
+        force_types = ['php'],
         target_tab = 0,
         target_url = '',
         patch_headers = function (media_type) {
@@ -38,7 +40,8 @@
                             if(header.value.indexOf("filename") != -1){
                                 var filext = header.value.split('.').pop().replace(/["']/g, "");
                                 if($.mime(filext) == 'application/octet-stream' ||
-                                   $.mime(filext) == 'unknow')
+                                   $.mime(filext) == 'unknow' ||
+                                   force_types.indexOf(filext) == 0)
                                         headers[ctindex].value = media_type;
                                 else headers[ctindex].value = $.mime(filext);
                             }
@@ -75,7 +78,7 @@
                     {urls: [target_url]},
                     ['blocking', 'responseHeaders']
                 );
-                chrome.tabs.create({url: target_url}, function (tab) {
+                chrome.tabs.create({url: target_url, selected:false}, function (tab) {
                     target_tab = tab.id;
                 });
             };
